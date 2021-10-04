@@ -1,14 +1,37 @@
-    start_game = input("Hit enter to start game.")
+import sys
+import time
+from intro import *
+from termcolor import *
+import os
 
-    print("\n\n")
+
+# Intro 
+def hit_enter():
+
+    text = colored('Hit enter', 'red', attrs=['bold', 'blink'])
+
+    prompt = input(f"\t\t\t     {text}")
+
+
+
+def begin():
+    opening()
+    hit_enter()
+begin()
+
+
 def start():
+    items = []
     #Starting hill
     print("You have suddenly appeared on top of a large, but walkable, hilltop.")
     print("You can go in any of the four cardinal directions.")
     
     look = input("n, e, s, or w?\n>").lower()
     
-    if look[0] == "n":
+    if look == "":
+        print("Please enter a direction")
+        start()
+    elif look[0] == "n":
         forest()
     elif look[0] == "e":
         hills()
@@ -17,13 +40,9 @@ def start():
     elif look[0] == "w":
         lake()
     else:
-        print("try again")
-        try_again("There are only four cardinal directions...")
-#is there a way to loop a function in use? so i can apply this function to all functions
-def try_again(text):
-    print(text)
-    start()
-#forest
+        print("There are only four cardinal directions.")
+        start()
+
 def forest():
 
     print("The forest is dense.")
@@ -39,6 +58,7 @@ def forest():
     else:
         print("left or right")
         forest()
+
 
 def bear_den():
 
@@ -124,7 +144,11 @@ def fairy_bad_timing():
     if touch[0] == "y":
         knowledge()
     elif touch[0] == "n":
-        leave()
+        print("The ground is wet and slippery")
+        print("You slip and fall into the water.")
+        return_home("pond")
+        
+        
     else:
         print("Seriously? Yes or No?")
         fairy_bad_timing()
@@ -143,23 +167,4 @@ def return_home(location):
         print("")
 
 
-
-
-
-
-
-def end_credits():
-    print("""\n\n\nThank you for playing, I hope it was somewhat entertaining, I put a lot of time into this and learned a lot about the logic of programming and making decisions. It was an incredible journey, and I hope to accomplish more with my programming journey!""")
-    print("""\n\n\n\nAnd then the day came,
-    when the risk
-    to remain tight
-    in a bud
-    was more painful
-    than the risk
-    it took
-    to blossom.
-    \t--Risk, by Anaïs Nin""")
-opening()
 start()
-end_credits()
-
