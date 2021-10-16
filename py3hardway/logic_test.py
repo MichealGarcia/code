@@ -1,3 +1,5 @@
+#THIS IS MY OWN CODE*
+
 """This program will test your programming logic
 
 It uses dictionary key:value pairs
