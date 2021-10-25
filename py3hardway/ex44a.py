@@ -17,7 +17,7 @@
 class Parent(object):
 
     def implicit(self):
-        print("Parent implicit()")
+        print("PARENT implicit()")
 
 class Child(Parent):
     pass
