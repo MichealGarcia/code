@@ -1,4 +1,4 @@
-# This will run my game. I will create a file for characters, rooms, treasures.
+# game.py will run my game. I will create a file for characters, rooms, treasures.
 
 # The game:
     # You start out on a hill tall enough to see everything at a distance
@@ -26,3 +26,58 @@
                 # Once inside, there is nothing but cobwebs and a fork on the table
                     #Grab Fork, and transport to hill
             # fenced area, sheep that just bah!
+    # After collecting all items, you appear on hill
+        # If items == 4: you start moving downward on an elevator
+
+    # Final Boss room, when elevator stops
+        # Boss appears, no literally, it's your boss!
+        # He pulls out a sword and screams "I know you lied about your sick leave!!"
+            # Create D&D style fight that is all luck based.
+            # You go first, try to swing? if no, "why?" If yes, then a a random int rolls 1-20
+            # Boss goes, he will swing..
+                # dice roll: random int 1-20
+                    # if 1, you miss, 2-10, you hit for 1, if 11-15, hit for 2, 16-19, hit for 4, 20 hit for 1000.
+                    # need to checkHealth
+                    # If health goes to 0, you restart fight from beginning
+                    #
+
+                    #If you beat boss, you find Micheal, the ultimate employee
+
+# Room(object), because everything willbe treated as its own spacial cube
+    # Hill
+    # Forest
+        # smallPond
+        # bearDen
+    # Lake
+        # Bank
+        # Island
+    # Desert
+        # Oasis
+    # Farm
+        # Cottage
+        # Barn
+        # fencedArea
+    # secretLair
+
+# Creature
+    # You
+    # Bear
+    # Fairy
+    # Octopus
+    # Skeleton
+    # Sheep
+    # Stranger
+    # Boss
+    # michealGarcia
+
+# Treasure
+    # Amulet
+    # Sword
+
+
+# Game.py
+    # Main(object)
+        # - checkHealth
+        # - Fight
+        # - NextArea
+        # - Transport
