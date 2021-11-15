@@ -1,122 +1,158 @@
-#Cocktail making game, you get a list of recipes.
-#Starting at level 1, the drinks will be two step drinks (two ingredients, then add ice)
-# Level 2: 3 step
-# level 4: 4 step
-# Will get harder with each level.
+# Cocktail making game, cocktails have different difficulties determined by amount of
+# ingredients. Each level has three drinks (for now), pulled from a dictionary.
+# Each cocktail has a name, ingredients, and measurements.
+# There is an intro level that makes you pour a shot of Fernet Branca.
+# The game will only have 3 levels to start.
+# When a level starts, a ticket will print with orders of cocktail names
+# these cocktails will appear one at a time when you confirm that you are ready to start.
+# When you start, you will get text saying make me a {cocktail_name}.
+# Then you will type the first ingredient, the second, third, and fourth
 
 
-# Making drinks
-    # cocktail, has a name and a recipe
-    # gets ordered
-    # ingredients are combined by measurements
-    # shaken or stirred?
-    # glassware?
-    # garnish?
+# Code in a check recipe book, So to start game, either look at recipe book or start.
 
-
-
-# Another idea: Create instance for every item used.
-    # Spirits(object)
-    # Mixer(object)
-    # Glassware(object)
-
-from sys import exit
-from random import randint
-from textwrap import dedent
-
-class Cocktail(object):
-
-    def __init__(self, name, difficulty, ingredients):
-        self.name = name
-        self.difficulty = difficulty
-        self.ingredients = ingredients
 
 class Game(object):
 
-    def level1(self, cocktail_list):
+    def start(self):
+        pass
 
-        print("Your first order is coming in!")
-        print("_"*10,"\n")
-        print(dedent(f"""
-                    {cocktail_list[0]}
-                    {cocktail_list[1]}
-                    {cocktail_list[2]}
-                    """))
-        print("_"*10,"\n")
-
-    def level2(self, cocktail_list):
-
-        print("New orders are coming in!")
-        print(dedent(f"""
-                    {cocktail_list[0]}
-                    {cocktail_list[1]}
-                    {cocktail_list[2]}
-                    """))
-        print("_"*10,"\n")
-
-    def level3(self, cocktail_list):
-
-        print("Last round of orders for the night, get ready!")
-        print(dedent(f"""
-                    {cocktail_list[0]}
-                    {cocktail_list[1]}
-                    {cocktail_list[2]}
-                    """))
-        print("_"*10,"\n")
+class Engine(object):
+    total_points = 0
+    points = 0
     
-    def cocktail_list(self, cocktail1, cocktail2, cocktail3):
-        list_of_cocktails = [cocktail1, cocktail2, cocktail3]
-        return list_of_cocktails
+    def __init__(self, cocktail_objects_list):
+        self.cocktail_objects_list = cocktail_objects_list
 
-    def play(self, cocktails):
-        print(cocktails)
-        ready = input("press any key to start")
-        if ready:
-            pass
+    def guess_the_spirit_ingredient(self):
+        points = 0
+        total_points = 0
+        for object in self.cocktail_objects_list:
+            if object.tier == 1:
 
+                print(f"Drink order: {object.ingredients_dict['Name']}")
+                guess_spirit = str(input("what is the main spirit?\n")).lower()
+                
+                if guess_spirit == object.ingredients_dict["Spirit"].lower():
+                    points+=1
+                    total_points+=1
+                else:
+                    print("Incorrect")
+                    points=points
+                    total_points+=1
+
+                guess_ingredient = str(input("What is the mixer?\n")).lower()
+
+                if guess_ingredient == object.ingredients_dict['Mixers'].lower():
+                    points+=1
+                    total_points+=1
+                else:
+                    print("Incorrect")
+                    points=points
+                    total_points+=1
+            
+            elif object.tier == 2 or object.tier == 3:
+                
+                print(f"Drink order: {object.ingredients_dict['Name']}")
+                guess_spirit = str(input("What is the main spirit?\n")).lower()
+
+                if guess_spirit == object.ingredients_dict['Spirit'].lower():
+                    points+=1
+                    total_points+=1
+                else:
+                    print("Bug or typo")
+                    points=points
+                    total_points+=1
+
+
+                for ingredients in object.ingredients_dict['Mixers']:
+
+                    ingredients = ingredients.lower()
+                    guess_ingredient = str(input("What is a mixer in this cocktail?\n")).lower()
+                    if guess_ingredient in object.ingredients_dict['Mixers']:
+                        points+=1
+                        total_points+=1
+                    else:
+                        print("Incorrect")
+                        points=points
+                        total_points+=1
+
+
+                    
+
+                
         
+        print(f"Debugger: {points}/{total_points}")
+
+    def test(self):
+        for object in self.cocktail_objects_list:
+            print(object.ingredients_dict["Name"])
 
 
 
-gin_tonic = Cocktail("Gin & Tonic", 1, 
-                                            {
-                                            "Gin": "2oz",
-                                            "Tonic": "3oz"
-                                            })
-seven_seven = Cocktail("7 & 7", 1, 
-                                            {
-                                            "Seagram's 7": "2oz",
-                                            "Sprite": "3oz"
-                                            })
-rum_coke = Cocktail("Rum & Coke", 1,
-                                            {
-                                            "Rum": "2oz",
-                                            "Coke": "3oz"
-                                            })
-old_fashioned = Cocktail("Old Fashioned", 2, 
-                                            {
-                                            "Whiskey": "2oz",
-                                            "Simple Syrup": ".25oz",
-                                            "Angostura Bitters": "3 Dashes"
-                                            })
-lemon_drop = Cocktail("Lemon Drop", 2, 
-                                            {
-                                            "Vodka": "2oz",
-                                            "Lemon Juice": ".75oz",
-                                            "Triple Sec": ".75oz"
-                                            })
-sazerac = Cocktail("Sazerac", 2, 
-                                            {
-                                            "Whiskey": "2oz",
-                                            "Simple Syrup": ".25oz",
-                                            "Peychaud's Bitters": "3 Dashes"
-                                            })                                         
+class Cocktail(object):
 
-game = Game()
-list_of_cocktails1 = game.cocktail_list(gin_tonic.name, seven_seven.name, rum_coke.name)
-list_of_cocktails2 = game.cocktail_list(old_fashioned.name, lemon_drop.name, sazerac.name)
+    def __init__(self, tier, ingredients_dict):
+
+        self.tier = tier
+        self.ingredients_dict = ingredients_dict
 
 
+
+
+
+gin_tonic = Cocktail(1,
+                        {"Name": "Gin and Tonic",
+                        "Spirit": "Gin",
+                        "Mixers": "tonic"
+                        })
+seven_seven = Cocktail(1,
+                        {"Name": "7 & 7",
+                        "Spirit": "Whiskey",
+                        "Mixers": "sprite"
+                        })
+rum_coke = Cocktail(1,
+                        {"Name": "Rum & Coke",
+                        "Spirit": "Rum",
+                        "Mixers": "coke"
+                        })
+old_fashioned = Cocktail(2,
+                            {"Name": "Old Fashioned",
+                            "Spirit": "Whiskey",
+                            "Mixers": ["simple syrup", "angostura bitters"]
+                            })
+lemon_drop = Cocktail(2,
+                        {"Name": "Lemon Drop",
+                        "Spirit": "Vodka",
+                        "Mixers": ["triple sec", "lemon juice"]
+                        })
+sidecar = Cocktail(2,
+                    {"Name": "Sidecar",
+                    "Spirit": "Cognac",
+                    "Mixers": ["triple sec", "lemon juice"]
+                    })
+sazerac = Cocktail(3, 
+                    {"Name": "Sazerac",
+                    "Spirit": "Whiskey",
+                    "Mixers": ['simple syrup', 'absinthe', 'peychaud\'s bitters']
+                    })
+last_word = Cocktail(3, 
+                        {"Name": "Last Word",
+                        "Spirit": "Gin",
+                        "Mixers": ['green chartreuse', 'lime juice', 'luxardo']
+                        })                        
+whiskey_sour = Cocktail(3, 
+                        {"Name": "Whiskey Sour",
+                        "Spirit": "Whiskey",
+                        "Mixers": ["simple syrup", "lemon juice", "egg white"]
+                        })
+
+cocktail_list = [gin_tonic, seven_seven, rum_coke, old_fashioned, lemon_drop, sidecar, sazerac, last_word, whiskey_sour]
+
+engine = Engine(cocktail_list)
+
+engine.guess_the_spirit_ingredient()
+#engine.test()
 
 
 
